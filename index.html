@@ -545,10 +545,14 @@ top: 39px;
       var passwordd = document.getElementById("passwordd").value;
       var email = document.getElementById("email").value;
       var phone = document.getElementById("phone").value;
-      if (usernamee==""|| passwordd==""|| email==""|| phone=="" || phone.length != 10) {
+      const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+      
+      if (usernamee==""|| passwordd==""|| email==""|| phone=="" || phone.length != 10 || phone[0] != 0 ) {
+        alert("Invalid phone number. Please try again. Check input 10 number and first number equal to 0");
         return false;
       }
-      else {
+      else if(regex.test(phone)) { 
+        alert("Phone number is valid.");
       google.script.run.AddRecord(usernamee,passwordd,email,phone);
       document.getElementById("page2_id1").className = "page2_id1-off";
       document.getElementById("page3_id1").className = "page3_id1";

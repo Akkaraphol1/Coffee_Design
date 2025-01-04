@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เมนูเครื่องดื่ม</title>
+    <style>
+        /* CSS for styling the page */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #2a6d77;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .translate {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ff0000;
+            border-radius: 50%; /* Make the tab circular */
+            cursor: pointer;
+            transition: background 0.3s;
+            text-align: center;
+            font-size: 12px;
+            color: rgb(255, 0, 0);
+        }
+
+        .tab.active {
+            background-color: #2a6d77;
+            color: #fff;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .menu-item {
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .menu-item h3 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .menu-item p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .price-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .price-button {
+            flex: 1;
+            padding: 5px;
+            background-color: #2a6d77;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin: 0 2px;
+        }
+
+        .price-disbutton {
+            flex: 1;
+            padding: 5px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin: 0 2px;
+        }
+
+            /* CSS for like/dislike buttons */
+            .like-dislike-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .like-button, .dislike-button {
+            background-color: #ddd;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .like-button.active {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        .dislike-button.active {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1 id="pageTitle">เซอร์ไพรส์เยอะ: ของรางวัลมากกว่า 500 รางวัล</h1>
+
+    <!-- Tabs for categories (Circular Buttons) -->
+    <div class="tabs">
+        <div class="tab active" data-en="Coffee" data-th="กาแฟ" onclick="filterMenu('coffee')">Coffee</div>
+        <div class="tab" data-en="Tea" data-th="ชา" onclick="filterMenu('tea')">Tea</div>
+        <div class="tab" data-en="Milk" data-th="นม" onclick="filterMenu('milk')">Milk</div>
+        <div class="tab" data-en="Kid" data-th="เด็ก" onclick="filterMenu('kid')">Kid</div>
+        <div class="tab" data-en="Healthy" data-th="เพื่อสุขภาพ" onclick="filterMenu('healthy')">Healthy</div>
+        <div class="tab" data-en="Soda" data-th="โซดา" onclick="filterMenu('soda')">Soda</div>
+        <div class="translate" onclick="toggleLanguage()">EN</div>
+    </div>
+
+    <!-- Menu items -->
+    <div class="menu" id="menu">
+
+        <!-- Coffee items -->
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/4857/4857193.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Espresso" data-th="เอสเพรสโซ">Espresso</h3>
+            <p data-en="Espresso (30 ml)" data-th="เอสเพรสโซ (30 มล)">Espresso (30 ml)</p>
+            <!-- Like & Dislike buttons -->
+            <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+                <button class="price-button" type="button" onclick="window.location.href='EspressoMixed.html'" id = "esp1" data-en="Hot ฿25" data-th="ร้อน ฿25">Hot ฿25</button>
+                <button class="price-disbutton" data-en="Cold ฿30" data-th="เย็น ฿30">Cold ฿30</button>
+                <button class="price-disbutton" data-en="Blend ฿35" data-th="ปั่น ฿35">Blend ฿35</button>
+           </div>
+            </div>
+
+
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/8433/8433104.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Americano" data-th="อเมริกาโน">Americano</h3>
+            <p data-en="Espresso, Water" data-th="เอสเพรสโซ, น้ำ">Espresso, Water</p>
+             <!-- Like & Dislike buttons -->
+             <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+                <button class="price-button" data-en="Hot ฿30" data-th="ร้อน ฿30">Hot ฿30</button>
+                <button class="price-button" data-en="Cold ฿35" data-th="เย็น ฿35">Cold ฿35</button>
+                <button class="price-disbutton" data-en="Blend ฿40" data-th="ปั่น ฿40">Blend ฿40</button>
+            </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/16085/16085711.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Double Espresso" data-th="ดับเบิ้ล เอสเพรสโซ">Double Espresso</h3>
+            <p data-en="Espresso (60 ml)" data-th="เอสเพรสโซ (60 มล)">Espresso (60 ml)</p>
+              <!-- Like & Dislike buttons -->
+              <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+                <button class="price-button" data-en="Hot ฿30" data-th="ร้อน ฿30">Hot ฿30</button>
+                <button class="price-button" data-en="Cold ฿35" data-th="เย็น ฿35">Cold ฿35</button>
+                <button class="price-button" data-en="Blend ฿40" data-th="ปั่น ฿40">Blend ฿40</button>
+            </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/2391/2391718.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Black Coffee" data-th="กาเเฟดำ">Black Coffee</h3>
+            <p data-en="Dark shot Espresso,  Water" data-th="เอสเพรสโซชนิดเข้มข้น, น้ำ">Espresso, Water</p>
+                <!-- Like & Dislike buttons -->
+                <div class="like-dislike-buttons">
+                    <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                    <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                    </div>
+            <div class="price-buttons">
+                <button class="price-button" data-en="Hot ฿30" data-th="ร้อน ฿30">Hot ฿30</button>
+                <button class="price-button" data-en="Cold ฿35" data-th="เย็น ฿35">Cold ฿35</button>
+                <button class="price-button" data-en="Blend ฿40" data-th="ปั่น ฿40">Blend ฿40</button>
+            </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/2935/2935307.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Latte" data-th="ลาเต้">Latte</h3>
+            <p data-en="Dark shot Latte, Milk, Water" data-th="ลาเต้ชนิดเข้มข้น, นมสด, น้ำ">Dark shot Latte, Milk, Water</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿30" data-th="ร้อน ฿30">Hot ฿30</button>
+            <button class="price-button" data-en="Cold ฿35" data-th="เย็น ฿35">Cold ฿35</button>
+            <button class="price-button" data-en="Blend ฿40" data-th="ปั่น ฿40">Blend ฿40</button>
+            </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/5621/5621817.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Thai Iced Espresso" data-th="เอสเย็นเเบบไทยๆ">Thai Iced Espresso</h3>
+            <p data-en="Espresso, Milk, Sugar ,ice" data-th="กาเเฟ นม น้ำตาล เเละ น้ำเเข็ง">Espresso, Milk, Sugar ,ice</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿40" data-th="ร้อน ฿40">Hot ฿40</button>
+            <button class="price-button" data-en="Cold ฿45" data-th="เย็น ฿45">Cold ฿45</button>
+            <button class="price-button" data-en="Blend ฿50" data-th="ปั่น ฿50">Blend ฿50</button>
+            </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/8979/8979253.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Cappuccino" data-th="คาปูชิโน่">cappuccino</h3>
+            <p data-en="Espresso, Milk, Foamed milk" data-th="กาเเฟ นม เเละ ฟองนม">Espresso, Milk, Foamed milk</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿40" data-th="ร้อน ฿40">Hot ฿40</button>
+            <button class="price-button" data-en="Cold ฿45" data-th="เย็น ฿45">Cold ฿45</button>
+            <button class="price-button" data-en="Blend ฿50" data-th="ปั่น ฿50">Blend ฿50</button>
+            </div>
+        </div>
+        
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/190/190881.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Mocha" data-th="มอคค่า">Mocha</h3>
+            <p data-en="Espresso, Cocoa, Milk, Sugar" data-th="กาเเฟ นม โกโก้ เเละ น้ำตาล">Espresso, Cocoa, Milk, Sugar</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿45" data-th="ร้อน ฿45">Hot ฿45</button>
+            <button class="price-button" data-en="Cold ฿50" data-th="เย็น ฿50">Cold ฿50</button>
+            <button class="price-button" data-en="Blend ฿55" data-th="ปั่น ฿55">Blend ฿55</button>
+            </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+            <img src="https://cdn-icons-png.flaticon.com/128/18025/18025149.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Caramel Latte" data-th="คาราเมลลาเต้">Caramel Latte</h3>
+            <p data-en="Espresso, Milk, Caramel Syrup" data-th="กาเเฟ นม เเละ นมน้ำเชื่อมคาราเมล">Espresso, Milk, Caramel Syrup</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿40" data-th="ร้อน ฿40">Hot ฿40</button>
+            <button class="price-button" data-en="Cold ฿45" data-th="เย็น ฿45">Cold ฿45</button>
+            <button class="price-button" data-en="Blend ฿50" data-th="ปั่น ฿50">Blend ฿50</button>
+            </div>
+        </div>
+
+          <!-- Tea items -->
+          <div class="menu-item" data-category="tea">
+            <img src="https://cdn-icons-png.flaticon.com/128/4857/4857219.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Green Tea" data-th="ชาเขียว">Green Tea</h3>
+            <p data-en="Green Tea, Milk, Water" data-th="ชาเขียว, นมสด, น้ำ">Green Tea, Milk, Water</p>
+              <!-- Like & Dislike buttons -->
+              <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿30" data-th="ร้อน ฿30">Hot ฿30</button>
+            <button class="price-button" data-en="Cold ฿35" data-th="เย็น ฿35">Cold ฿35</button>
+            <button class="price-button" data-en="Blend ฿40" data-th="ปั่น ฿40">Blend ฿40</button>
+            </div>
+        </div>
+
+         <!-- Milk items -->
+        <div class="menu-item" data-category="milk">
+            <img src="https://cdn-icons-png.flaticon.com/128/18025/18025149.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Caramel Latte" data-th="คาราเมลลาเต้">Caramel Latte</h3>
+            <p data-en="Espresso, Milk, Caramel Syrup" data-th="กาเเฟ นม เเละ นมน้ำเชื่อมคาราเมล">Espresso, Milk, Caramel Syrup</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿40" data-th="ร้อน ฿40">Hot ฿40</button>
+            <button class="price-button" data-en="Cold ฿45" data-th="เย็น ฿45">Cold ฿45</button>
+            <button class="price-button" data-en="Blend ฿50" data-th="ปั่น ฿50">Blend ฿50</button>
+            </div>
+        </div>
+
+        <!-- Healthy items -->
+        <div class="menu-item" data-category="healthy">
+            <img src="https://cdn-icons-png.flaticon.com/128/3347/3347470.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Sodacano" data-th="โซดากาโน่">Sodacano</h3>
+            <p data-en="Coffee and Soda" data-th="กาเเฟ เเละ โซดา">Coffee and Soda</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-disbutton"  data-en="Hot ฿35" data-th="ร้อน ฿35">Hot ฿35</button>
+            <button class="price-button" data-en="Cold ฿40" data-th="เย็น ฿40">Cold ฿40</button>
+            <button class="price-disbutton"  data-en="Blend ฿45" data-th="ปั่น ฿45">Blend ฿45</button>
+            </div>
+        </div>
+
+
+         <!-- Kid items -->
+         <div class="menu-item" data-category="kid">
+            <img src="https://cdn-icons-png.flaticon.com/128/4857/4857219.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Green Tea" data-th="ชาเขียว">Green Tea</h3>
+            <p data-en="Green Tea, Milk, Water" data-th="ชาเขียว, นมสด, น้ำ">Green Tea, Milk, Water</p>
+              <!-- Like & Dislike buttons -->
+              <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-button" data-en="Hot ฿30" data-th="ร้อน ฿30">Hot ฿30</button>
+            <button class="price-button" data-en="Cold ฿35" data-th="เย็น ฿35">Cold ฿35</button>
+            <button class="price-button" data-en="Blend ฿40" data-th="ปั่น ฿40">Blend ฿40</button>
+            </div>
+        </div>
+
+        
+        <!-- Soda items -->
+        <div class="menu-item" data-category="soda">
+            <img src="https://cdn-icons-png.flaticon.com/128/3347/3347470.png" alt="คำอธิบายของภาพ"  >
+            <h3 data-en="Sodacano" data-th="โซดากาโน่">Sodacano</h3>
+            <p data-en="Coffee and Soda" data-th="กาเเฟ เเละ โซดา">Coffee and Soda</p>
+               <!-- Like & Dislike buttons -->
+               <div class="like-dislike-buttons">
+                <button class="like-button" onclick="toggleLike(this)" data-en="👍 Like" data-th="👍 ถูกใจ" >👍 Like</button>
+                <button class="dislike-button" onclick="toggleDislike(this)" data-en="👎 Dislike" data-th="👎 ไม่ชอบ" >👎 Dislike</button>
+                </div>
+            <div class="price-buttons">
+            <button class="price-disbutton"  data-en="Hot ฿35" data-th="ร้อน ฿35">Hot ฿35</button>
+            <button class="price-button" data-en="Cold ฿40" data-th="เย็น ฿40">Cold ฿40</button>
+            <button class="price-disbutton"  data-en="Blend ฿45" data-th="ปั่น ฿45">Blend ฿45</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+         
+     
+        // สลับภาษา
+        function toggleLanguage() {
+            const elements = document.querySelectorAll('[data-en], [data-th]');
+            const currentLanguage = document.querySelector('.translate').textContent.trim();
+            document.querySelector('.translate').textContent = currentLanguage === 'EN' ? 'TH' : 'EN';
+            
+            document.getElementById('pageTitle').innerText = currentLanguage === 'TH'
+                ? 'Extra Surprise: More than 500 prizes'
+                : 'เซอร์ไพรส์เยอะ: ของรางวัลมากกว่า 500 รางวัล';
+
+            elements.forEach(element => {
+                const textKey = currentLanguage === 'EN' ? 'data-th' : 'data-en';
+                element.textContent = element.getAttribute(textKey);
+            });
+        }
+    
+        // ฟังก์ชันเปลี่ยนแถบเมนู
+        function filterMenu(category) {
+    const items = document.querySelectorAll('.menu-item');
+    items.forEach(item => {
+        if (item.getAttribute('data-category') === category || category === 'all') {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    document.querySelector(`[data-en="${category.charAt(0).toUpperCase() + category.slice(1)}"]`).classList.add('active');
+}
+
+    
+        // ฟังก์ชันการกดปุ่มไลค์
+        function toggleLike(button) {
+            button.classList.toggle('active');
+            const dislikeButton = button.nextElementSibling;
+            if (dislikeButton.classList.contains('active')) {
+                dislikeButton.classList.remove('active');
+            }
+        }
+    
+        // ฟังก์ชันการกดปุ่มไม่ไลค์
+        function toggleDislike(button) {
+            button.classList.toggle('active');
+            const likeButton = button.previousElementSibling;
+            if (likeButton.classList.contains('active')) {
+                likeButton.classList.remove('active');
+            }
+        }
+
+        // function to send data
+        function sendData(buttonType) {
+        // ส่งข้อมูลไปยัง server หรือ console log ข้อมูลที่ต้องการ
+         console.log("Button clicked:", buttonType);
+        }
+
+        // Event listeners for the buttons
+        document.getElementById('likeButton').addEventListener('click', function() {
+         sendData('like');
+        });
+
+        document.getElementById('dislikeButton').addEventListener('click', function() {
+        sendData('dislike');
+        });
+
+        document.querySelectorAll('.price-button').forEach(button => {
+         button.addEventListener('click', function() {
+        sendData('price');
+        });
+        });
+
+
+    </script>
+    
+</body>
+</html>
